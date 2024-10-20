@@ -1,5 +1,4 @@
 import random
-import math
 
 def isprime(prime):
     if prime < 1 : return False
@@ -25,7 +24,7 @@ def isprime(prime):
             return False
     return True 
 
-number1 = pow(2,89)
+number1 = pow(2,89) - 1
 number2 = random.randint(2, number1)
 if isprime(number2):
     print(f"{number2} is a prime number")
