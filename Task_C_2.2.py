@@ -1,14 +1,6 @@
 import random
 import secrets 
 
-def gcd(num1,num2):
-    while num1*num2 !=0:
-        if (num1 > num2):
-            num1 = num1 % num2
-        else:
-            num2 = num2 % num1
-    return num1+num2
-
 def _pow(a, x, p):
     result = 1
     a = a % p
@@ -20,14 +12,9 @@ def _pow(a, x, p):
     return result
 
 def isprime(prime):
-    if prime <= 1:
-        return False
-    if prime <= 3:
-        return True
-    if prime % 2 == 0:
-        return False
-    if prime % 3 == 0:
-        return False
+    if prime <= 1: return False
+    if prime <= 3: return True
+    if prime % 2 == 0: return False
     r= 0
     d = prime - 1
     while d % 2 == 0:
@@ -56,7 +43,7 @@ def extended_gcd(a, b):
     return gcd, x, y
 
 def mod_inverse(e, phi_n):
-    gcd, x, _ = extended_gcd(e, phi_n)
+    gcd, x = extended_gcd(e, phi_n)
     if gcd != 1:
         return -1
     else:
@@ -69,15 +56,20 @@ def generate_random_prime():
 while True:
     option = int(input("1. Encrypt\n2. Decrypt\nEnter your choice: "))
     if option == 1: 
-        option = int(input("1. Enter number\n2. Generate random prime\nEnter your choice: "))
+        option = int(input("1. Enter your number\n2. Generate random prime\nEnter your choice: "))
         if option == 1:
             p = int(input("Enter p: "))
+            if isprime(p) == False: 
+                print("q is not a prime number. Please select again")
+                continue
             q = int(input("Enter q: "))
+            if isprime(q) == False: 
+                print("q is not a prime number. Please select again")
+                continue
             e = int(input("Enter e: "))
-            if isprime(q) == False: continue
-            if isprime(p) == False: continue
-            if isprime(e) == False: continue
-
+            if isprime(e) == False: 
+                print("q is not a prime number. Please select again")
+                continue
             n = p*q
             phiN = (p-1)*(q-1)
 
@@ -99,18 +91,15 @@ while True:
                 if isprime(p) == False: p = secrets.randbits(16)
                 elif isprime(q) == False: q = secrets.randbits(16)
                 else: break
-
             n = p*q
             phiN = (p-1)*(q-1)
             e = random.randint(2, phiN - 1)
             while True:
                 if isprime(e) == False and gcd(e, phiN) != 1:
                     e = random.randint(2, phiN - 1)
-                else: 
-                    break
+                else: break
             d = mod_inverse(e,phiN)
             if (d == -1): continue
-
             print(f"P number: {p}")
             print(f"Q number: {q}")
             print(f"PhiN number: {phiN}")
@@ -122,12 +111,21 @@ while True:
                 c = _pow(ord(i),e,n)
                 c = hex(c)[2:]
                 cyphertext = cyphertext + str(c) + " "
-
             print(f"Ciphertext: {cyphertext}") 
+            
     elif option == 2:
         p = int(input("Enter p: "))
+        if isprime(p) == False: 
+            print("p is not a prime number. Please select again")
+            continue
         q = int(input("Enter q: "))
-        d = int(input("Enter d: "))
+        if isprime(q) == False: 
+            print("q is not a prime number. Please select again")
+            continue
+        e = int(input("Enter e: "))
+        if isprime(d) == False: 
+            print("d is not a prime number. Please select again")
+            continue
         temp_cyphertext = input(f"Enter your cyphertext: ")
         cyphertext = temp_cyphertext.split(' ')
         plaintext = str()
