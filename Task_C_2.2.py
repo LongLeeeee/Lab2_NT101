@@ -1,6 +1,14 @@
 import random
 import secrets 
 
+def gcd(num1,num2):
+    while num1*num2 !=0:
+        if (num1 > num2):
+            num1 = num1 % num2
+        else:
+            num2 = num2 % num1
+    return num1+num2
+
 def _pow(a, x, p):
     result = 1
     a = a % p
@@ -42,12 +50,12 @@ def extended_gcd(a, b):
     y = x1
     return gcd, x, y
 
-def mod_inverse(e, phi_n):
-    gcd, x = extended_gcd(e, phi_n)
+def mod_inverse(e, phiN):
+    gcd, x, _= extended_gcd(e, phiN)
     if gcd != 1:
         return -1
     else:
-        return x % phi_n
+        return x % phiN
     
 def generate_random_prime():
     while True:
@@ -122,10 +130,7 @@ while True:
         if isprime(q) == False: 
             print("q is not a prime number. Please select again")
             continue
-        e = int(input("Enter e: "))
-        if isprime(d) == False: 
-            print("d is not a prime number. Please select again")
-            continue
+        d = int(input("Enter d: "))
         temp_cyphertext = input(f"Enter your cyphertext: ")
         cyphertext = temp_cyphertext.split(' ')
         plaintext = str()
