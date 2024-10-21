@@ -1,7 +1,5 @@
-import math
 import random
-
-n = 5000
+n = 1000
 prime_matrix = [True]*n 
 
 def eratosthenes(primes):
@@ -10,7 +8,6 @@ def eratosthenes(primes):
             primes.append(i)
             for j in range(i*2, n, i):
                 prime_matrix[j] = False
-
 def isprime(prime):
     if prime <= 1:
         return False
@@ -23,7 +20,6 @@ def isprime(prime):
     while d % 2 == 0:
         r += 1
         d //= 2
-
     for _ in range(5):
         a = random.randint(2, prime - 2) 
         x = pow(a, d, prime) 
@@ -36,19 +32,30 @@ def isprime(prime):
         else:
             return False
     return True 
-
-def find_mersenne_primes(matrix):
+def find_mersenne_primes(matrix, mersenne_primes):
     count = 1
     for i in matrix:
        mersenne_prime = 2**i - 1
        if isprime(mersenne_prime) == True:
-            print(f"Number {count}: {mersenne_prime}")
-            count+=1 
-            if count == 21:
+            mersenne_primes.append(mersenne_prime)
+            count += 1
+            if count == 11:
                break
-
+def largest_prime_less_than(n1,n2,count):
+    for i in range(n2-1, n1,-1):
+        if(isprime(i)):
+            print(f"Number {count}: {i}")
+            break
 primes = []
+mersenne_primes = []
 eratosthenes(primes)
-print("20 số nguyên tố Mersenne đầu tiên:")
-find_mersenne_primes(primes)
+print("The 10 largest prime numbers under 10 first mersennce prime numbers:")
+find_mersenne_primes(primes, mersenne_primes)
+count = 1
+for i in range(0, 10, 1):
+    if i == 0: 
+        largest_prime_less_than(0, mersenne_primes[i],count)
+    else:
+        largest_prime_less_than(mersenne_primes[i-1], mersenne_primes[i],count)
+    count += 1
 
